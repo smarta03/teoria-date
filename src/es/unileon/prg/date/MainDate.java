@@ -6,7 +6,7 @@ public class MainDate{
 
         Date today,tomorrow; //Creamos objetos de tipo fecha para compararlos
 
-        today = new Date(21,12,2020); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
+        today = new Date(40,12,2020); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
         tomorrow = new Date(21,12,2020);
 
         
@@ -25,6 +25,7 @@ public class MainDate{
         System.out.println("tomorrow.isSameYear(today): " + tomorrow.isSameYear(today));
         //COMPARA FECHA
         System.out.println("today.isSameYear(tomorrow): " + today.isSame(tomorrow));
+
     }
     
 }

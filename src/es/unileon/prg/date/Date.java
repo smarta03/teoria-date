@@ -10,8 +10,8 @@ public class Date{
 
     //Constructor de la fecha
     Date (int day, int month, int year){
-        this.day = day;
-        //this.setDay(day); // se pone asi para llamar a las comprobaciones
+        //this.day = day;
+        this.setDay(day,month); // se pone asi para llamar a las comprobaciones
         this.month = month;
         //this.setMonth(month);
         this.year = year;
@@ -19,10 +19,52 @@ public class Date{
 
     }
 
-    // void setDay(int day){ //Comprobacion de que es un dia valido
+    void setDay(int day,int month){ //Comprobacion de que es un dia valido
         
+        this.day = day;
+        this.month = month;
+        // if (month == 1 || month == 3 || month ==  5 || month == 7 || month == 8 || month == 10 || month == 12){
 
-    // }
+        // }
+
+        switch (month){
+
+            case 1: //next
+            case 3: //next
+            case 5: //next
+            case 7: //next
+            case 8: //next
+            case 10: //next
+            case 12:
+                    if (day<=0 || day >=31){
+                        System.out.println("Fecha incorrecta");
+                    } else {
+                        System.out.println("Fecha correcta");
+                    }
+            break;
+
+            case 4: //next
+            case 6: //next
+            case 9: //next
+            case 11:
+                    if (day<=0 || day >=30){
+                        System.out.println("Fecha incorrecta");
+                    } else {
+                        System.out.println("Fecha correcta");
+                    }
+            break;
+
+            case 2:if (day<=0 || day >= 28){  //Sin considerar bisiestos
+                        System.out.println("Fecha incorrecta");
+                    } else {
+                        System.out.println("Fecha correcta");
+                    }
+            
+            break;
+
+        }
+
+    }
 
     // void setMonth(int month){ //Comprobacion de que es un mes valido
 
