@@ -10,8 +10,8 @@ public class Date{
 
     //Constructor de la fecha
     Date (int day, int month, int year){
-        //this.day = day;
-        this.setDay(day,month); // se pone asi para llamar a las comprobaciones
+        this.day = day;
+        //this.setDay(day,month); // se pone asi para llamar a las comprobaciones
         this.month = month;
         //this.setMonth(month);
         this.year = year;
@@ -19,15 +19,9 @@ public class Date{
 
     }
 
-    void setDay(int day,int month){ //Comprobacion de que es un dia valido
-        
-        this.day = day;
-        this.month = month;
-        // if (month == 1 || month == 3 || month ==  5 || month == 7 || month == 8 || month == 10 || month == 12){
-
-        // }
-
-        switch (month){
+    void setDay(){ //Comprobacion de que es un dia valido
+    
+        switch (this.month){
 
             case 1: //next
             case 3: //next
@@ -36,10 +30,10 @@ public class Date{
             case 8: //next
             case 10: //next
             case 12:
-                    if (day<=0 || day >=31){
-                        System.out.println("Fecha incorrecta");
+                    if (this.day<=0 || this.day >=31){
+                        System.out.println("Dia incorrecto");
                     } else {
-                        System.out.println("Fecha correcta");
+                        System.out.println("Dia correcto");
                     }
             break;
 
@@ -47,34 +41,31 @@ public class Date{
             case 6: //next
             case 9: //next
             case 11:
-                    if (day<=0 || day >=30){
-                        System.out.println("Fecha incorrecta");
+                    if (this.day<=0 || this.day >=30){
+                        System.out.println("Dia incorrecto");
                     } else {
-                        System.out.println("Fecha correcta");
+                        System.out.println("Dia correcto");
                     }
             break;
 
-            case 2:if (day<=0 || day >= 28){  //Sin considerar bisiestos
-                        System.out.println("Fecha incorrecta");
+            case 2:if (this.day<=0 || day >= 28){  //Sin considerar bisiestos
+                        System.out.println("Dia incorrecto");
                     } else {
-                        System.out.println("Fecha correcta");
+                        System.out.println("Dia correcto");
                     }
             
             break;
-
         }
 
     }
 
-    // void setMonth(int month){ //Comprobacion de que es un mes valido
+    void setMonth(int month){ //Comprobacion de que es un mes valido
+        if(this.month>12 && this.month<0){
+            System.out.println("Mes incorrecto");
+        } 
 
+    }
 
-    // }
-
-    // void setYear(int year){ //Comprobacion de que es un anno valido
-
-
-    // }
 
     int getDay() {
 
@@ -169,7 +160,54 @@ public class Date{
         return name;
     }
 
-    //isRightDay
+    boolean isRightDay(){
+
+        boolean rightDay = false;
+        this.day = day;
+        this.month = month;
+
+        switch (month){
+
+            case 1: //next
+            case 3: //next
+            case 5: //next
+            case 7: //next
+            case 8: //next
+            case 10: //next
+            case 12:
+                    if (day<=0 || day >=31){
+                        rightDay = false;
+                    } else {
+                        rightDay = true;
+                    }
+            break;
+
+            case 4: //next
+            case 6: //next
+            case 9: //next
+            case 11:
+                    if (day<=0 || day >=30){
+                        rightDay = false;
+                    } else {
+                        rightDay = true;
+                    }
+            break;
+
+            case 2:if (day<=0 || day >= 28){  //Sin considerar bisiestos
+                        rightDay = false;
+                    } else {
+                        rightDay = true;
+                    }
+            
+            break;
+
+    }
+
+     return rightDay;
+
+    }
+
+
 
     String getSeason(){
 

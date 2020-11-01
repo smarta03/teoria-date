@@ -6,10 +6,12 @@ public class MainDate{
 
         Date today,tomorrow; //Creamos objetos de tipo fecha para compararlos
 
-        today = new Date(40,12,2020); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
+        today = new Date(30,02,2020); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
         tomorrow = new Date(21,12,2020);
 
         
+        System.out.println("Today es correcto: " + today.isRightDay());
+        System.out.println("Today es correcto: " + tomorrow.isRightDay());
         System.out.println("El mes de today es: " + today.getNameMonth()); //No se le pasa parametros porque ya se pasa el objeto today
         System.out.println("El mes de tomorrow es: " + tomorrow.getNameMonth());
         System.out.println("La estacion de today es: " + today.getSeason());
