@@ -244,14 +244,112 @@ public class Date{
 
     //FOR
     String getNamesMonthLeft (){
+        int monthTemp;
         StringBuilder names;
         names = new StringBuilder();
 
+        monthTemp = this.month; //Creo el temporal sino al modificar directamente this.month(para la llamada al metodo getNameMonth) el mes se cambiaria a 12 para siempre
+
         for (int i = this.month; i<=12 ; i++){
             //incluir el nombre del mes en names
+            this.month = i;
             names.append(this.getNameMonth() + " ");
         }
+        this.month = monthTemp; //Devolvemos el valor original del mes 
 
         return names.toString();
     }
+
+    String getDaysMonthLeft (){
+        StringBuilder daysLeft;
+        daysLeft = new StringBuilder();
+
+        daysLeft.append("Dias hasta final de mes -->");
+        
+        switch(this.month){
+            case 1: //next
+            case 3: //next
+            case 5: //next
+            case 7: //next
+            case 8: //next
+            case 10: //next
+            case 12:
+                    for (int i = this.day ; i<=31 ; i++){
+                        daysLeft.append(i+" ");
+                    }
+            break;
+
+            case 4: //next
+            case 6: //next
+            case 9: //next
+            case 11:
+                    for (int i = this.day ; i<=30 ; i++){
+                        daysLeft.append(i+" ");
+                    }
+            break;
+
+            case 2: 
+                   for (int i = this.day ; i<=28 ; i++){
+                        daysLeft.append(i+" ");
+                    }
+            break;
+
+        }
+
+        return daysLeft.toString();
+    }
+
+    //String getNamesMonthSameDays (){
+        //StringBuilder names;
+        //names = new StringBuilder();
+
+        //SIN HACER
+        //return names.toString;
+    //}
+
+    //Dias del mes
+    private int getDaysOfMonth(){
+        int days=0;
+
+        switch (this.month){
+            case 1: //next
+            case 3: //next
+            case 5: //next
+            case 7: //next
+            case 8: //next
+            case 10: //next
+            case 12:
+                days = 31;
+            break;
+
+            case 4: //next
+            case 6: //next
+            case 9: //next
+            case 11:
+                days = 30;
+            break;
+
+            case 2: 
+                 days = 28;
+            break;
+            
+        }
+         return days;
+    }
+    //Dias hasta el 1 de enero
+    int getTotalDaysSinceFirst(){
+        int days=0;
+        for (int i=this.month; i>=1 ; i--){
+            //Para sumar los dias de ese mes en la primera vuelta
+            if (this.month==i){
+                days = days + this.day;
+            } else {
+                //this.month =this.month-1;//Bajamos un mes porque es el que debemos sumar
+                days = days + this.getDaysOfMonth();
+                //this.month =this.month+1;//Lo actualizamos para que no cambie su valor
+            }
+        }
+        return days;
+    }
+
 }
