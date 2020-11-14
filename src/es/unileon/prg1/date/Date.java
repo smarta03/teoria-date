@@ -28,14 +28,18 @@ public class Date{
 
     //SETERS
 
-    void setDay(int day){ //Comprobacion de que es un dia valido
-     
-        int now = this.day;
-        this.day = day;
-        if (!this.isRightDay()){
-            this.day = now;
-            //throw new DateException("Dater error: Day "+day);
-        }   
+    void setDay(int day) throws DateException{ //Comprobacion de que es un dia valido
+            
+        // if ( day < 1 || day > this.getDaysOfMonth() ) {
+		// 	throw new DateException("Date error: Day " + day + " of month " + this.month + " not valid");			
+		// } else {
+		// this.day = day; 
+        // }
+        if ( this.isRightDay()==false ) {
+			throw new DateException("Date error: Day " + day + " of month " + this.month + " not valid");			
+		} else {
+		this.day = day;
+        } 
 
     }
 
@@ -149,7 +153,19 @@ public class Date{
         return name;
     }
 
-    private boolean isRightDay(){
+    boolean esBisiesto(){
+        boolean esBisiesto=false;
+
+        if ((this.year%400 == 0) || (this.year%4 == 0 && this.year%100!=0)){
+            esBisiesto = true;
+        }
+
+
+        return esBisiesto;
+    }
+
+//private
+boolean isRightDay(){
 
         boolean rightDay = false;
         
@@ -177,14 +193,13 @@ public class Date{
             break;
 
             case 2: 
-                    if (this.day>=1 || this.day<=28){  //Sin considerar bisiestos
-                        rightDay = true;
-                    }
-            
+                    if (this.day>=1 || this.day<=this.getDaysOfMonth()){  //Sin considerar bisiestos
+                         rightDay = true;
+                    } 
+		          
             break;
 
     }
-        
      return rightDay;
 
     }
@@ -289,9 +304,18 @@ public class Date{
             break;
 
             case 2: 
-                   for (int i = this.day ; i<=28 ; i++){
+                if ((this.year%400 == 0) || (this.year%4 == 0 && this.year%100!=0)){
+                    for (int i = this.day ; i<=29 ; i++){
                         daysLeft.append(i+" ");
                     }
+		        } else {
+                    for (int i = this.day ; i<=28 ; i++){
+                        daysLeft.append(i+" ");
+                    }
+		        }
+                //    for (int i = this.day ; i<=28 ; i++){
+                //         daysLeft.append(i+" ");
+                //     }
             break;
 
         }
@@ -299,16 +323,9 @@ public class Date{
         return daysLeft.toString();
     }
 
-    //String getNamesMonthSameDays (){
-        //StringBuilder names;
-        //names = new StringBuilder();
-
-        //SIN HACER
-        //return names.toString;
-    //}
-
-    //Dias del mes
-    private int getDaysOfMonth(){
+    //Dias del mes sin parametros
+//private
+ int getDaysOfMonth(){
         int days=0;
 
         switch (this.month){
@@ -330,26 +347,83 @@ public class Date{
             break;
 
             case 2: 
-                 days = 28;
+                 //days = 28;
+                if ((this.year%400 == 0) || (this.year%4 == 0 && this.year%100!=0)){
+                    days = 29;
+		        } else {
+                    days = 28;
+		        }
+                 
             break;
             
         }
          return days;
     }
+
+    String getNamesMonthSameDays () throws DateException{
+        StringBuilder names = new StringBuilder();
+        Date aux = new Date (this.day,this.month,this.year);
+        for (int i=1;i<=12;i++){
+            aux.setMonth(i);
+            if(aux.getDaysOfMonth()==this.getDaysOfMonth() && aux.getMonth()!=this.getMonth()){
+                names.append(aux.getNameMonth()+" ");
+            }       
+       
+        }
+
+         return names.toString();
+    }
+    
     //Dias hasta el 1 de enero
-    int getTotalDaysSinceFirst(){
+    int getTotalDaysSinceFirst() throws DateException{
         int days=0;
-        for (int i=this.month; i>=1 ; i--){
+        Date aux = new Date(this.day,this.month,this.year);
+        for (int i=aux.month; i>=1 ; i--){
             //Para sumar los dias de ese mes en la primera vuelta
-            if (this.month==i){
-                days = days + this.day;
+            if (aux.month==i){
+                days = days + aux.day;
             } else {
-                //this.month =this.month-1;//Bajamos un mes porque es el que debemos sumar
-                days = days + this.getDaysOfMonth();
-                //this.month =this.month+1;//Lo actualizamos para que no cambie su valor
+                aux.setMonth(i);
+                days = days + aux.getDaysOfMonth();
             }
         }
         return days;
+    }
+
+    //Intentos fecha aleatoria
+    int attemptsRandomDate()throws DateException{
+        int randomMonth=1, randomDay=1, intentos=1;
+        randomMonth =(int)(Math.random()*12+1);
+        randomDay = (int)(Math.random()*28+1);
+        Date randomDate = new Date(randomDay,randomMonth,this.year);
+
+        //Generamos un mes aleatorio valido y un dia para ese mes
+        while(randomMonth!=this.month || randomDay!=this.day){
+            randomMonth =(int)(Math.random()*12+1);
+            randomDate.setMonth(randomMonth);
+            randomDay = (int)(Math.random()*randomDate.getDaysOfMonth()+1);
+            randomDate.setDay(randomDay);
+            intentos++;
+        }
+        
+        return intentos;
+    }
+
+    String getNameWeekday()throws DateException{
+        String diaSemana="";
+
+        switch(this.getTotalDaysSinceFirst()%7){
+            case 0: diaSemana = "Miercoles"; break;
+            case 1: diaSemana = "Jueves"; break;
+            case 2: diaSemana = "Viernes"; break;
+            case 3: diaSemana = "Sabado"; break;
+            case 4: diaSemana = "Domingo"; break;
+            case 5: diaSemana = "Lunes"; break;
+            case 6: diaSemana = "Martes"; break;
+        }
+
+
+        return diaSemana;
     }
 
 }
