@@ -1,3 +1,8 @@
+/* Teoria Clase Date,
+Sergio Martinez Aguero 71529484-J
+smarta03@estudiantes.unileon.es PRG1 Universidad de Leon
+*/
+
 package es.unileon.prg1.date;
 
 //La clase publica
