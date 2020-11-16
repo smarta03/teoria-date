@@ -17,25 +17,27 @@ public class Date{
 
     //Constructor de la fecha
     Date (int day, int month, int year) throws DateException{ //Propagamos la excepcion
+        //this.year = year;
+        this.setYear(year);
         //this.month = month;
         this.setMonth(month); 
         //this.day = day;
         this.setDay(day); // se pone asi para llamar a las comprobaciones
-        //this.year = year;
-        this.setYear(year);
+        
 
     }
 
     //SETERS
 
     void setDay(int day) throws DateException{ //Comprobacion de que es un dia valido
-            
+       
         // if ( day < 1 || day > this.getDaysOfMonth() ) {
 		// 	throw new DateException("Date error: Day " + day + " of month " + this.month + " not valid");			
 		// } else {
 		// this.day = day; 
         // }
-        if ( this.isRightDay()==false ) {
+    
+        if ( this.isRightDay(day)==false ) {
 			throw new DateException("Date error: Day " + day + " of month " + this.month + " not valid");			
 		} else {
 		this.day = day;
@@ -165,10 +167,10 @@ public class Date{
     }
 
 //private
-boolean isRightDay(){
+boolean isRightDay(int day){
 
         boolean rightDay = false;
-        
+
         switch (this.month){
 
             case 1: //next
@@ -178,7 +180,7 @@ boolean isRightDay(){
             case 8: //next
             case 10: //next
             case 12:
-                    if (this.day>=1 || this.day <=31){
+                    if (day>=1 && day <=31){
                         rightDay = true;
                     } 
             break;
@@ -187,17 +189,18 @@ boolean isRightDay(){
             case 6: //next
             case 9: //next
             case 11:
-                    if (this.day>=1 || this.day <=30){
+                    if (day>=1 && day <=30){
                         rightDay = true;
                     }
             break;
 
             case 2: 
-                    if (this.day>=1 || this.day<=this.getDaysOfMonth()){  //Sin considerar bisiestos
+                    if (day>=1 && day<=this.getDaysOfMonth()){ 
                          rightDay = true;
                     } 
 		          
             break;
+            default: rightDay=false;
 
     }
      return rightDay;
