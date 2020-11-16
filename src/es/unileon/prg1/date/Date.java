@@ -491,12 +491,4 @@ public class Date{
         return diaSemana;
     }
 
-    private int setFirstWeekdayOfMonth (){
-        int firstWeekday;
-            System.out.println("Inserta que dia de la semana fue el "+this.toString()+":");
-            System.out.println("01-Lunes 02-Martes 03-Miercoles 04-Jueves 05-Viernes 06-Sabado 07-Domingo");
-            firstWeekday = Teclado.readInteger();
-        return firstWeekday;
-    }
-
 }
