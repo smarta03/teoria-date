@@ -8,24 +8,24 @@ public class MainDate{
 
         try{
 
-            today = new Date(28,02,2019); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
+            today = new Date(01,01,2017); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
             tomorrow = new Date(29,02,2020);
 
             System.out.println(today.toString());
             System.out.println(tomorrow.toString());
             //System.out.println("Today es correcto: " + today.isRightDay()); //private
             //System.out.println(today.getDaysOfMonth()); //private
-            System.out.println(today.getNamesMonthLeft());
-            System.out.println(today.getDaysMonthLeft());
-            System.out.println(today.getTotalDaysSinceFirst()+" dias hasta principio de anyo");
+            System.out.println(today.getMonthsLeft());
+            System.out.println(today.getDaysLeftOfMonth());
+            System.out.println(today.daysPast()+" dias hasta principio de anyo");
             System.out.println(today.attemptsRandomDate()+" intentos hasta adivinar la fecha");
-            System.out.println("Dia de la semana today "+today.getNameWeekday(2));  //Recibe el parametro del dia de la semana 1lunes 2martes,...
-            System.out.println("Meses con mismos dias--> "+today.getNamesMonthSameDays());
+            System.out.println("Dia de la semana today "+today.dayOfWeek(1));  //Recibe el parametro del dia de la semana 1lunes 2martes,...
+            System.out.println("Meses con mismos dias--> "+today.getMonthsSameDays());
 
             //System.out.println("Today es correcto: " + tomorrow.isRightDay()); //private
-            System.out.println("El mes de today es: " + today.getNameMonth()); //No se le pasa parametros porque ya se pasa el objeto today
+            System.out.println("El mes de today es: " + today.getMonthName()); //No se le pasa parametros porque ya se pasa el objeto today
             //System.out.println("El mes de tomorrow es: " + tomorrow.getNameMonth());
-            System.out.println("La estacion de today es: " + today.getSeason());
+            System.out.println("La estacion de today es: " + today.getSeasonName());
             //System.out.println("La estacion de tomorrow es: " + tomorrow.getSeason());
 
             //COMPARAR DIA

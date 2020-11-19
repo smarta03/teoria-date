@@ -30,6 +30,13 @@ public class Date{
         this.setDay(day); // se pone asi para llamar a las comprobaciones y que las fechas sean validas
         
     }
+    
+    //Contructor que recibe como parametro otro objeto fecha
+    Date (Date date) {
+    	this.day = date.day;
+    	this.month = date.month;
+    	this.year = date.year;
+    }
 
     //SETERS
 
@@ -44,6 +51,7 @@ public class Date{
     }
     //Comprobacion de que es un mes valido, este metodo lanza excepciones
     void setMonth(int month) throws DateException { 
+    	
         if(month>12 || month<1){   //La excepcion DateException la hemos creado nosotros en la clase DateException.java
             throw new DateException("Date error: Not valid month " + month);  //Excepciones (son objetos) el mensaje de error    
         }else{
@@ -51,8 +59,12 @@ public class Date{
         }   
     }
     //Comprobacion de que es un anyo valido
-    void setYear(int year){
+    void setYear(int year) throws DateException {
+    	if(year<=0) {
+    		throw new DateException("Date error: Not valid year "+year);
+    	} else {
         this.year = year;
+    	}
     }
 
     //GETERS
@@ -127,23 +139,23 @@ public class Date{
 
     //SWITCH
     //Devuelve el nomre del mes
-    String getNameMonth(){
+    String getMonthName(){
 
         String name = "";
 
         switch (this.month){
-            case 1: name = "Enero"; break;
-            case 2: name = "Febrero"; break;                
-            case 3: name = "Marzo"; break;
-            case 4: name = "Abril"; break;
-            case 5: name = "Mayo"; break;
-            case 6: name = "Junio"; break;
-            case 7: name = "Julio"; break;
-            case 8: name = "Agosto"; break;
-            case 9: name = "Septiembre"; break;
-            case 10: name = "Octubre"; break;
-            case 11: name = "Noviembre"; break;
-            case 12: name = "Diciembre"; break;
+            case 1: name = "January"; break;
+            case 2: name = "February"; break;                
+            case 3: name = "March"; break;
+            case 4: name = "April"; break;
+            case 5: name = "May"; break;
+            case 6: name = "June"; break;
+            case 7: name = "July"; break;
+            case 8: name = "August"; break;
+            case 9: name = "September"; break;
+            case 10: name = "October"; break;
+            case 11: name = "November"; break;
+            case 12: name = "December"; break;
             
             //...
             //No ponemos el default ya que se comprueba que sea un mes valido en el constructor           
@@ -191,7 +203,7 @@ public class Date{
             break;
 
             case 2: 
-                    if (day>=1 && day<=this.getDaysOfMonth()){ 
+                    if (day>=1 && day<=this.daysOfMonth()){ 
                          rightDay = true;
                     } 
 		          
@@ -203,7 +215,7 @@ public class Date{
 
     }
     //Devuleve la estacion a la que pertenece la fecha ajustada a los dias
-    String getSeason(){
+    String getSeasonName(){
 
         String season = "";
 
@@ -211,44 +223,44 @@ public class Date{
             
             case 3: 
                 if(this.day>=21){
-                    season = "Primavera";
+                    season = "Spring";
                 } else{
-                    season = "Invierno";
+                    season = "Winter";
                 }
             break;
 
             case 4: //next
-            case 5: season = "Primavera"; break;
+            case 5: season = "Spring"; break;
             case 6:
                 if(this.day<=20){
-                    season = "Primavera";
+                    season = "Spring";
                 } else {
-                    season = "Verano";
+                    season = "Summer";
                 }
             break;
 
             case 7: //next
-            case 8: season = "Verano"; break;
+            case 8: season = "Summer"; break;
             case 9:
                 if(this.day<=20){
-                    season = "Verano";
+                    season = "Summer";
                 } else {
-                    season = "Otonyo";
+                    season = "Autumn";
                 }
             break;
 
             case 10: //next
-            case 11: season = "Otonyo"; break;
+            case 11: season = "Autumn"; break;
             case 12:
                 if(this.day<=20){
-                    season = "Otonyo";
+                    season = "Autumn";
                 } else {
-                    season = "Invierno";
+                    season = "Winter";
                 }
             break;
 
             case 1: //next
-            case 2: season = "Invierno";
+            case 2: season = "Winter";
         }
 
         return season;
@@ -256,28 +268,27 @@ public class Date{
 
     //FOR
     //Cadena de los meses hasta final de anyo
-    String getNamesMonthLeft (){
+    String getMonthsLeft (){
         int monthTemp;
         StringBuilder names;
         names = new StringBuilder();
 
         monthTemp = this.month; //Creo el temporal sino al modificar directamente this.month(para la llamada al metodo getNameMonth) el mes se cambiaria a 12 para siempre
 
-        for (int i = this.month; i<=12 ; i++){
+        for (int i = this.month+1; i<=12 ; i++){
             //incluir el nombre del mes en names
             this.month = i;
-            names.append(this.getNameMonth() + " ");
+            names.append(this.getMonthName() + " ");
         }
         this.month = monthTemp; //Devolvemos el valor original del mes 
 
         return names.toString();
     }
     //Devuleve una cadena de todos los dias que faltan hasta final de mes
-    String getDaysMonthLeft (){
+    String getDaysLeftOfMonth () throws DateException{
         StringBuilder daysLeft;
+        Date copyDate = new Date(this.day,this.month,this.year);
         daysLeft = new StringBuilder();
-
-        daysLeft.append("Dias hasta final de mes -->");
         
         switch(this.month){
             case 1: //next
@@ -287,8 +298,9 @@ public class Date{
             case 8: //next
             case 10: //next
             case 12:
-                    for (int i = this.day ; i<=31 ; i++){
-                        daysLeft.append(i+" ");
+                    for (int i = this.day+1 ; i<=31 ; i++){
+                        copyDate.setDay(i);
+                        daysLeft.append(copyDate.toString()+" ");
                     }
             break;
 
@@ -296,19 +308,22 @@ public class Date{
             case 6: //next
             case 9: //next
             case 11:
-                    for (int i = this.day ; i<=30 ; i++){
-                        daysLeft.append(i+" ");
+                    for (int i = this.day+1 ; i<=30 ; i++){
+                        copyDate.setDay(i);
+                        daysLeft.append(copyDate.toString()+" ");
                     }
             break;
 
             case 2: 
                 if (this.isBisiesto()==true){
-                    for (int i = this.day ; i<=29 ; i++){
-                        daysLeft.append(i+" ");
+                    for (int i = this.day+1 ; i<=29 ; i++){
+                        copyDate.setDay(i);
+                        daysLeft.append(copyDate.toString()+" ");
                     }
 		        } else {
-                    for (int i = this.day ; i<=28 ; i++){
-                        daysLeft.append(i+" ");
+                    for (int i = this.day+1 ; i<=28 ; i++){
+                        copyDate.setDay(i);
+                        daysLeft.append(copyDate.toString()+" ");
                     }
 		        }
                 //    for (int i = this.day ; i<=28 ; i++){
@@ -321,7 +336,7 @@ public class Date{
         return daysLeft.toString();
     }
     //Devuleve los dias del mes al que pertene la fecha
-    private int getDaysOfMonth(){
+    public int daysOfMonth(){
         int days=0;
 
         switch (this.month){
@@ -356,13 +371,13 @@ public class Date{
          return days;
     }
     //Devuleve una cadena con todos los meses que tienen los mismos dias que el mes de la fecha
-    String getNamesMonthSameDays () throws DateException{
+    String getMonthsSameDays () throws DateException{
         StringBuilder names = new StringBuilder();
         Date aux = new Date (this.day,this.month,this.year);
         for (int i=1;i<=12;i++){
             aux.setMonth(i);
-            if(aux.getDaysOfMonth()==this.getDaysOfMonth() && aux.getMonth()!=this.getMonth()){
-                names.append(aux.getNameMonth()+" ");
+            if(aux.daysOfMonth()==this.daysOfMonth()){
+                names.append(aux.getMonthName()+" ");
             }       
        
         }
@@ -371,23 +386,23 @@ public class Date{
     }
     
     //Dias hasta el 1 de enero de ese anyo
-    int getTotalDaysSinceFirst() throws DateException{
+    int daysPast() throws DateException{
         int days=0;
         Date aux = new Date(this.day,this.month,this.year);
         for (int i=aux.month; i>=1 ; i--){
             //Para sumar los dias de ese mes en la primera vuelta
             if (aux.month==i){
-                days = days + aux.day;
+                days = days + aux.day -1;
             } else {
                 aux.setMonth(i);
-                days = days + aux.getDaysOfMonth();
+                days = days + aux.daysOfMonth();
             }
         }
         return days;
     }
 
     //Intentos fecha aleatoria para acertar la fecha introducida (en ese anyo)
-    int attemptsRandomDate()throws DateException{
+    int numRandomTriesEqualDate()throws DateException{
         int randomMonth=1, randomDay=1, intentos=1;
         randomMonth =(int)(Math.random()*12+1);
         randomDay = (int)(Math.random()*28+1);
@@ -397,7 +412,7 @@ public class Date{
         while(randomMonth!=this.month || randomDay!=this.day){
             randomMonth =(int)(Math.random()*12+1);
             randomDate.setMonth(randomMonth);
-            randomDay = (int)(Math.random()*randomDate.getDaysOfMonth()+1);
+            randomDay = (int)(Math.random()*randomDate.daysOfMonth()+1);
             randomDate.setDay(randomDay);
             intentos++;
         }
@@ -406,94 +421,106 @@ public class Date{
     }
     //DEvuleve el nombre del dia de la semana recibiendo como parametro el dia de la semana del 01/01 de ese anyo
     //1-Lunes,2-Martes,3-Miercoles,4-Jueves,5-Viernes,6-Sabado,7-Domingo
-    String getNameWeekday(int primerDia)throws DateException{
+String dayOfWeek(int primerDia)throws DateException{
         
         String diaSemana="";
         int totalDays;
+        
 
-        totalDays=this.getTotalDaysSinceFirst();
+        totalDays=this.daysPast();
 
         switch(primerDia){
+            case 1:
+            switch(totalDays%7){
+                case 0: diaSemana = "Monday"; break;
+                case 1: diaSemana = "Tuesday"; break;
+                case 2: diaSemana = "Wednesday"; break;
+                case 3: diaSemana = "Thursday"; break;
+                case 4: diaSemana = "Friday"; break;
+                case 5: diaSemana = "Saturday"; break;
+                case 6: diaSemana = "Sunday"; break;
+            }
+            break;
             case 2:
             switch(totalDays%7){
-                case 0: diaSemana = "Lunes"; break;
-                case 1: diaSemana = "Martes"; break;
-                case 2: diaSemana = "Miercoles"; break;
-                case 3: diaSemana = "Jueves"; break;
-                case 4: diaSemana = "Viernes"; break;
-                case 5: diaSemana = "Sabado"; break;
-                case 6: diaSemana = "Domingo"; break;
+                case 0: diaSemana = "Tuesday"; break;
+                case 1: diaSemana = "Wednesday"; break;
+                case 2: diaSemana = "Thursday"; break;
+                case 3: diaSemana = "Friday"; break;
+                case 4: diaSemana = "Saturday"; break;
+                case 5: diaSemana = "Sunday"; break;
+                case 6: diaSemana = "Monday"; break;
             }
             break;
             case 3:
             switch(totalDays%7){
-                case 0: diaSemana = "Martes"; break;
-                case 1: diaSemana = "Miercoles"; break;
-                case 2: diaSemana = "Jueves"; break;
-                case 3: diaSemana = "Viernes"; break;
-                case 4: diaSemana = "Sabado"; break;
-                case 5: diaSemana = "Domingo"; break;
-                case 6: diaSemana = "Lunes"; break;
+                case 0: diaSemana = "Wednesday"; break;
+                case 1: diaSemana = "Thursday"; break;
+                case 2: diaSemana = "Friday"; break;
+                case 3: diaSemana = "Saturday"; break;
+                case 4: diaSemana = "Sunday"; break;
+                case 5: diaSemana = "Monday"; break;
+                case 6: diaSemana = "Tuesday"; break;
             }
             break;
             case 4:
             switch(totalDays%7){
-                case 0: diaSemana = "Miercoles"; break;
-                case 1: diaSemana = "Jueves"; break;
-                case 2: diaSemana = "Viernes"; break;
-                case 3: diaSemana = "Sabado"; break;
-                case 4: diaSemana = "Domingo"; break;
-                case 5: diaSemana = "Lunes"; break;
-                case 6: diaSemana = "Martes"; break;
+                case 0: diaSemana = "Thursday"; break;
+                case 1: diaSemana = "Friday"; break;
+                case 2: diaSemana = "Saturday"; break;
+                case 3: diaSemana = "Sunday"; break;
+                case 4: diaSemana = "Monday"; break;
+                case 5: diaSemana = "Tuesday"; break;
+                case 6: diaSemana = "Wednesday"; break;
             }
             break;
             case 5:
             switch(totalDays%7){
-                case 0: diaSemana = "Jueves"; break;
-                case 1: diaSemana = "Viernes"; break;
-                case 2: diaSemana = "Sabado"; break;
-                case 3: diaSemana = "Domingo"; break;
-                case 4: diaSemana = "Lunes"; break;
-                case 5: diaSemana = "Martes"; break;
-                case 6: diaSemana = "Miercoles"; break;
+                case 0: diaSemana = "Friday"; break;
+                case 1: diaSemana = "Saturday"; break;
+                case 2: diaSemana = "Sunday"; break;
+                case 3: diaSemana = "Monday"; break;
+                case 4: diaSemana = "Tuesday"; break;
+                case 5: diaSemana = "Wednesday"; break;
+                case 6: diaSemana = "Thursday"; break;
             }
             break;
             case 6:
             switch(totalDays%7){
-                case 0: diaSemana = "Viernes"; break;
-                case 1: diaSemana = "Sabado"; break;
-                case 2: diaSemana = "Domingo"; break;
-                case 3: diaSemana = "Lunes"; break;
-                case 4: diaSemana = "Martes"; break;
-                case 5: diaSemana = "Miercoles"; break;
-                case 6: diaSemana = "Jueves"; break;
+                case 0: diaSemana = "Saturday"; break;
+                case 1: diaSemana = "Sunday"; break;
+                case 2: diaSemana = "Monday"; break;
+                case 3: diaSemana = "Tuesday"; break;
+                case 4: diaSemana = "Wednesday"; break;
+                case 5: diaSemana = "Thursday"; break;
+                case 6: diaSemana = "Friday"; break;
             }
             break;
             case 7:
             switch(totalDays%7){
-                case 0: diaSemana = "Sabado"; break;
-                case 1: diaSemana = "Domingo"; break;
-                case 2: diaSemana = "Lunes"; break;
-                case 3: diaSemana = "Martes"; break;
-                case 4: diaSemana = "Miercoles"; break;
-                case 5: diaSemana = "Juerves"; break;
-                case 6: diaSemana = "Viernes"; break;
-            }
-            break;
-            case 1:
-            switch(totalDays%7){
-                case 0: diaSemana = "Domingo"; break;
-                case 1: diaSemana = "Lunes"; break;
-                case 2: diaSemana = "Martes"; break;
-                case 3: diaSemana = "Miercoles"; break;
-                case 4: diaSemana = "Jueves"; break;
-                case 5: diaSemana = "Viernes"; break;
-                case 6: diaSemana = "Sabado"; break;
+                case 0: diaSemana = "Sunday"; break;
+                case 1: diaSemana = "Monday"; break;
+                case 2: diaSemana = "Tuesday"; break;
+                case 3: diaSemana = "Wednesday"; break;
+                case 4: diaSemana = "Thursday"; break;
+                case 5: diaSemana = "Friday"; break;
+                case 6: diaSemana = "Saturday"; break;
             }
             break;
         }
 
         return diaSemana;
     }
+
+	public Date tomorrow() {
+		Date tomorrowDate = null;
+		
+		try {
+			tomorrowDate = new Date(this.day+1,this.month,this.year);
+		} catch (DateException e) {		
+			System.out.println(e.getMessage());
+		}
+		return tomorrowDate;
+	}
 
 }
