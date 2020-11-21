@@ -17,18 +17,25 @@ public class Date{
     public Date(){
         this.day = 1;
         this.month = 1;
-        this.year = 1;
+        this.year = 2017;
     }
 
     //Constructor de la fecha con argumentos
     Date (int day, int month, int year) throws DateException{ //Propagamos la excepcion
-        //this.year = year;
+    	
+    	//Date copyDate = new Date(day,month,year); //Llamada al constructor al que se le pasa como parametro un objeto, para que lo asigne directamente y poder hacer la primera comprobacion
+        //System.out.println(copyDate.toString());
+    	if (this.isRightDay(day,month)==false) {
+        	throw new DateException("Date error: Day " + day + " , month " + this.month);
+        }else {
+    	
+    	//this.year = year;
         this.setYear(year);
         //this.month = month;
         this.setMonth(month); 
         //this.day = day;
         this.setDay(day); // se pone asi para llamar a las comprobaciones y que las fechas sean validas
-        
+        }
     }
     
     //Contructor que recibe como parametro otro objeto fecha
@@ -41,8 +48,8 @@ public class Date{
     //SETERS
 
     void setDay(int day) throws DateException{ //Comprobacion de que es un dia valido
-    
-        if ( this.isRightDay(day)==false ) {
+    	
+        if ( this.isRightDay(day, this.month)==false)  {
 			throw new DateException("Date error: Day " + day + " , month " + this.month + " of year " + this.year +": not valid");			
 		} else {
 		this.day = day;
@@ -131,6 +138,7 @@ public class Date{
 
         return isSame;
     }
+    
     //Imprime la fehca en formato String
     public String toString(){
        return this.day + "/" + this.month + "/" + this.year;
@@ -175,42 +183,46 @@ public class Date{
     }
 
     //Comprobacion de que es un dia correcto dentro del mes y anyo seleccionado
-    private boolean isRightDay(int day){
+    private boolean isRightDay(int day, int month){
 
         boolean rightDay = false;
+        	
+        if (day<1){
+        	rightDay = false;
+        } else {
+	        switch (month){
+	
+	            case 1: //next
+	            case 3: //next
+	            case 5: //next
+	            case 7: //next
+	            case 8: //next
+	            case 10: //next
+	            case 12:
+	                    if (day>=1 && day <=31){
+	                        rightDay = true;
+	                    } 
+	            break;
+	
+	            case 4: //next
+	            case 6: //next
+	            case 9: //next
+	            case 11:
+	                    if (day>=1 && day <=30){
+	                        rightDay = true;
+	                    }
+	            break;
+	
+	            case 2: 
+	                    if (day>=1 && day<=this.daysOfMonth()){ 
+	                         rightDay = true;
+	                    } 
+			          
+	            break;
+	            default: rightDay=false;
 
-        switch (this.month){
-
-            case 1: //next
-            case 3: //next
-            case 5: //next
-            case 7: //next
-            case 8: //next
-            case 10: //next
-            case 12:
-                    if (day>=1 && day <=31){
-                        rightDay = true;
-                    } 
-            break;
-
-            case 4: //next
-            case 6: //next
-            case 9: //next
-            case 11:
-                    if (day>=1 && day <=30){
-                        rightDay = true;
-                    }
-            break;
-
-            case 2: 
-                    if (day>=1 && day<=this.daysOfMonth()){ 
-                         rightDay = true;
-                    } 
-		          
-            break;
-            default: rightDay=false;
-
-    }
+	        }
+        }
      return rightDay;
 
     }
@@ -402,21 +414,29 @@ public class Date{
     }
 
     //Intentos fecha aleatoria para acertar la fecha introducida (en ese anyo)
-    int numRandomTriesEqualDate()throws DateException{
+    int numRandomTriesEqualDate(){
         int randomMonth=1, randomDay=1, intentos=1;
-        randomMonth =(int)(Math.random()*12+1);
-        randomDay = (int)(Math.random()*28+1);
-        Date randomDate = new Date(randomDay,randomMonth,this.year);
+        
+        //Date randomDate;
+		//try { //Quitamos la creacion de objeto sino entra en conflicto con la fecha copia
+			randomMonth =(int)(Math.random()*12+1);
+	        randomDay = (int)(Math.random()*28+1);
+			//randomDate = new Date(randomDay,randomMonth,this.year);
+			while(randomMonth!=this.month || randomDay!=this.day){
+            randomMonth =(int)(Math.random()*12+1);
+            //randomDate.setMonth(randomMonth);
+            randomDay = (int)(Math.random()*31+1);
+            //randomDate.setDay(randomDay);
+            intentos++;
+        //}
+		//} catch (DateException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
 
         //Generamos un mes aleatorio valido y un dia para ese mes
-        while(randomMonth!=this.month || randomDay!=this.day){
-            randomMonth =(int)(Math.random()*12+1);
-            randomDate.setMonth(randomMonth);
-            randomDay = (int)(Math.random()*randomDate.daysOfMonth()+1);
-            randomDate.setDay(randomDay);
-            intentos++;
-        }
         
+            
         return intentos;
     }
     //DEvuleve el nombre del dia de la semana recibiendo como parametro el dia de la semana del 01/01 de ese anyo
@@ -516,7 +536,13 @@ String dayOfWeek(int primerDia)throws DateException{
 		Date tomorrowDate = null;
 		
 		try {
+			if (this.day==this.daysOfMonth() && this.month==12) {
+				tomorrowDate = new Date(01,01,this.year+1);
+			} else  if(this.day==daysOfMonth() && this.month!=12){
+				tomorrowDate = new Date(01,this.month+1,this.year);
+			} else {
 			tomorrowDate = new Date(this.day+1,this.month,this.year);
+			}
 		} catch (DateException e) {		
 			System.out.println(e.getMessage());
 		}

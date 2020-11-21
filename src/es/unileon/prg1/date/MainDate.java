@@ -8,17 +8,17 @@ public class MainDate{
 
         try{
 
-            today = new Date(01,01,2017); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
-            tomorrow = new Date(29,02,2020);
+            today = new Date(01,02,2017); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
+            //tomorrow = new Date(29,02,2020);
 
             System.out.println(today.toString());
-            System.out.println(tomorrow.toString());
+            //System.out.println(tomorrow.toString());
             //System.out.println("Today es correcto: " + today.isRightDay()); //private
             //System.out.println(today.getDaysOfMonth()); //private
             System.out.println(today.getMonthsLeft());
             System.out.println(today.getDaysLeftOfMonth());
             System.out.println(today.daysPast()+" dias hasta principio de anyo");
-            System.out.println(today.attemptsRandomDate()+" intentos hasta adivinar la fecha");
+            System.out.println(today.numRandomTriesEqualDate()+" intentos hasta adivinar la fecha");
             System.out.println("Dia de la semana today "+today.dayOfWeek(1));  //Recibe el parametro del dia de la semana 1lunes 2martes,...
             System.out.println("Meses con mismos dias--> "+today.getMonthsSameDays());
 
@@ -29,15 +29,15 @@ public class MainDate{
             //System.out.println("La estacion de tomorrow es: " + tomorrow.getSeason());
 
             //COMPARAR DIA
-            System.out.println("today.isSameDay(tomorrow): " + today.isSameDay(tomorrow));
+            //System.out.println("today.isSameDay(tomorrow): " + today.isSameDay(tomorrow));
             //COMPARA MONTH
-            System.out.println("today.isSameMonth(tomorrow): " + today.isSameMonth(tomorrow));
+            //System.out.println("today.isSameMonth(tomorrow): " + today.isSameMonth(tomorrow));
             //COMPARA YEAR
-            System.out.println("today.isSameYear(tomorrow): " + today.isSameYear(tomorrow));
+            //System.out.println("today.isSameYear(tomorrow): " + today.isSameYear(tomorrow));
             //o tomorrow.isSameYear(today); es lo mismo ya que compara lo mismo
-            System.out.println("tomorrow.isSameYear(today): " + tomorrow.isSameYear(today));
+            //System.out.println("tomorrow.isSameYear(today): " + tomorrow.isSameYear(today));
             //COMPARA FECHA
-            System.out.println("today.isSame(tomorrow): " + today.isSame(tomorrow));
+            //System.out.println("today.isSame(tomorrow): " + today.isSame(tomorrow));
             System.out.println(today.toString());
 
         } catch(DateException e){
