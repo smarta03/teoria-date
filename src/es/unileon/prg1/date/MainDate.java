@@ -8,8 +8,8 @@ public class MainDate{
 
         try{
 
-            today = new Date(01,02,2017); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
-            //tomorrow = new Date(29,02,2020);
+            today = new Date(01,07,2017); //Llamada al contructor de la fecha que se llama desde Date y se le pasan directamente los parametros
+            //tomorrow = new Date();
 
             System.out.println(today.toString());
             //System.out.println(tomorrow.toString());
@@ -38,6 +38,10 @@ public class MainDate{
             //System.out.println("tomorrow.isSameYear(today): " + tomorrow.isSameYear(today));
             //COMPARA FECHA
             //System.out.println("today.isSame(tomorrow): " + today.isSame(tomorrow));
+            today.setDay(30);
+            System.out.println(today.toString());
+            today.setMonth(04);
+
             System.out.println(today.toString());
 
         } catch(DateException e){
